@@ -65,21 +65,36 @@ def extract_column(matrix, columnheader):
     c_column = [float(numeric_string) for numeric_string in column] #convert string array into float array TODO 2 remove after TODO 1
     return c_column
 
+#generates support array that consists of all transitions in the permno codes
+def get_support_array(matrix):
+    i = 0;
+    support_array = []
+    for row in matrix:
+        if row[0] != matrix[i-1][0]:
+            support_array.append(i)
+        i += 1
+    support_array.pop(0)
+    for item in support_array:
+        item += 0
+    print(support_array)
 
-def calculate_return(price, months = 1):
+
+    return support_array
+
+#calculates a return of a given array (price) for a certain amount of months (basic value is one month return)
+def calculate_return(price,support_array, months = 1):
     i = 0
-    k = 0
     z = 0
     data_range_per_permo = 120
     r3turn = []
     r3turn.append('return' + str(months) + 'months')
     while i in range(0,len(price)):
-        if i in range (data_range_per_permo*k,data_range_per_permo*k+months):
-            r3turn.append('NaN')
-            z += 1
-            if z == months:
-                z = 0
-                k += 1
+        for j in support_array:
+            if i in range(j,j+months):
+                r3turn.append('NaN')
+                z += 1
+                if z == months:
+                    z = 0
         else:
             r3turn.append((price[i]/price[i-months])-1)
         i += 1
@@ -93,7 +108,11 @@ def add_return_to_output(r3turn, output):
     print(output)
     return None
 
+support_array = get_support_array(ratios)
+
 price = extract_column(ratios, 'PRC')
-add_return_to_output(calculate_return(price,2),output)
-add_return_to_output(calculate_return(price,3),output)
+add_return_to_output(calculate_return(price,support_array, 2),output)
 export_matrix_to_csv(output_path,output)
+
+
+print(support_array)
