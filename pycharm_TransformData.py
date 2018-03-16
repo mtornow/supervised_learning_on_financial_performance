@@ -1,7 +1,6 @@
 import csv
 import os
 
-
 cwd = os.getcwd()
 
 data_type = 'real' #select 'real' or 'test' data
@@ -46,11 +45,6 @@ def transpose_matrix(matrix):
     column_list = [[matrix[row][column] for row in range(N)] for column in range(C)]
     return column_list
 
-#TODO 1 converts matrix into floats from strings, if headerrow is not available headerrow = 0
-def convert_matrix_to_float(matrix, headerrow_available = 1):
-    return None
-
-
 #extracts a column from matrix with header = columnheader and returns it as an array
 def extract_column(matrix, columnheader):
     i = 1
@@ -62,7 +56,7 @@ def extract_column(matrix, columnheader):
     t_matrix = transpose_matrix(matrix)
     column = t_matrix[column_position-1]
     column = column[1:] #remove header
-    c_column = [float(numeric_string) for numeric_string in column] #convert string array into float array TODO 2 remove after TODO 1
+    c_column = [float(numeric_string) for numeric_string in column] #convert string array into float array
     return c_column
 
 #generates support array that consists of all transitions in the permno codes
@@ -76,43 +70,46 @@ def get_support_array(matrix):
     support_array.pop(0)
     for item in support_array:
         item += 0
-    print(support_array)
-
-
     return support_array
 
 #calculates a return of a given array (price) for a certain amount of months (basic value is one month return)
 def calculate_return(price,support_array, months = 1):
     i = 0
-    z = 0
-    data_range_per_permo = 120
+    z = -1
     r3turn = []
     r3turn.append('return' + str(months) + 'months')
     while i in range(0,len(price)):
-        for j in support_array:
-            if i in range(j,j+months):
-                r3turn.append('NaN')
+        if i+1 in support_array or z in range(0,months):
+            r3turn.append('NaN')
+            if z == months-1:
+                z = -1
+            else:
                 z += 1
-                if z == months:
-                    z = 0
         else:
             r3turn.append((price[i]/price[i-months])-1)
         i += 1
     return r3turn
 
+
+
+#writes the return into the last column of output
 def add_return_to_output(r3turn, output):
     i = 0
     for row in output:
         row.append(r3turn[i])
         i += 1
-    print(output)
     return None
 
+#generation of support array
 support_array = get_support_array(ratios)
-
+#extraction of the price-data
 price = extract_column(ratios, 'PRC')
-add_return_to_output(calculate_return(price,support_array, 2),output)
+#addition of all wanted returns, here: 1-12 month return
+for i in range(1,13):
+    add_return_to_output(calculate_return(price,support_array, i),output)
+
+#writing the derived table into the output file
 export_matrix_to_csv(output_path,output)
 
 
-print(support_array)
+
