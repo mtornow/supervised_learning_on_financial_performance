@@ -7,6 +7,8 @@ data_type = 'real' #select 'real' or 'test' data
 
 source1 = cwd + '/' + data_type + 'data/companylist.csv'
 source2 = cwd + '/' + data_type + 'data/ratios.csv'
+dow_jones = cwd + '/' + data_type + 'data/DowJonesMarketMonthly.csv'
+risk_free = cwd + '/' + data_type + 'data/riskfree.csv'
 output_path = cwd + '/output/output.csv'
 
 ##IMPORT
@@ -27,8 +29,6 @@ for rowR in output:
         if rowR[0] == rowC[0]: #company code must be the same
             if rowC[1][3:] == rowR[3][3:]: #public_date(ratios) must be the same as date(companylist) only looking at month and year (publishing dates by actual day can differ)
                 rowR.append(rowC[6])
-
-
 
 #Store modified data in a .csv file, which can then be used for analysis
 def export_matrix_to_csv(output_path, matrix):
@@ -89,8 +89,6 @@ def calculate_return(price,support_array, months = 1):
             r3turn.append((price[i]/price[i-months])-1)
         i += 1
     return r3turn
-
-
 
 #writes the return into the last column of output
 def add_return_to_output(r3turn, output):

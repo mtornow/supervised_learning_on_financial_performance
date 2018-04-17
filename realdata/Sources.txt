@@ -1,0 +1,3 @@
+Wharton DB: CompanyList, Ratios, RiskFree
+
+Yahoo Finance: DowJonesMarketMonthly (https://finance.yahoo.com/quote/%5EDJI/history?period1=1081893600&period2=1523656800&interval=1mo&filter=history&frequency=1mo)
