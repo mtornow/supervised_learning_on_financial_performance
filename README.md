@@ -13,6 +13,8 @@ The scripts for the analysis of the eight datasets are then namned Script_superv
 
 The financial ratios are explained in the compFD file.
 
+The report is saved as an pdf in the same folder.
+
 ## Authors
 
 * **Maximilian Tornow** - *Initial work* - [mtsummerbreeze](https://github.com/mtsummerbreeze)
