@@ -17,7 +17,7 @@ The report is saved as an pdf in the same folder.
 
 ## Authors
 
-* **Maximilian Tornow** - *Initial work* - [mtsummerbreeze](https://github.com/mtsummerbreeze)
+* **Maximilian Tornow** - *Initial work* - [mtsummerbreeze](https://github.com/mtornow)
 * **Amira Sakr**
 * **Jacob Christensen**
 * **Nicolas Loosli**
